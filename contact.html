@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aloqa | NatureSound.io</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* ==========================================================================
+   NATURESOUND.IO | LUXURY MINIMALIST ZEN DESIGN SYSTEM (v4.0)
+   Pure Obsidian Dark Aesthetic, Floating Glass Buttons, Zero AI Clutter
+   ========================================================================== */
+
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  
+  /* Color Palette - Permanent Dark Zen Obsidian */
+  --bg-dark: #07090e;
+  --bg-surface: #0c1017;
+  --glass-bg: rgba(14, 19, 28, 0.65);
+  --glass-bg-hover: rgba(22, 30, 44, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.25);
+  --glass-glow: rgba(56, 189, 248, 0.16);
+  
+  --text-main: #f0f4fc;
+  --text-muted: rgba(240, 244, 252, 0.68);
+  --text-subtle: rgba(240, 244, 252, 0.42);
+  
+  --accent-cyan: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.45);
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-flame: #f97316;
+  
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --trans-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-fast: all 0.2s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  font-family: var(--font-main);
+  color: var(--text-main);
+}
+
+/* Background & Canvas */
+.bg-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+  background: #05070c;
+  pointer-events: none;
+}
+
+.bg-image-layer {
+  position: absolute;
+  inset: -15px;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 0.9s ease-in-out, opacity 1.2s ease;
+  transform: scale(1.02);
+  filter: brightness(0.62) contrast(1.1);
+}
+
+.bg-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 35%, rgba(6, 9, 14, 0.72) 100%),
+              linear-gradient(to bottom, rgba(5, 7, 12, 0.6) 0%, transparent 25%, transparent 75%, rgba(5, 7, 12, 0.85) 100%);
+  pointer-events: none;
+}
+
+#nature-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lightning-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(235, 245, 255, 0);
+  pointer-events: none;
+  transition: background-color 0.08s ease;
+}
+
+.lightning-flash.flash {
+  background: rgba(240, 248, 255, 0.42);
+}
+
+.lightning-flash.flash-minor {
+  background: rgba(240, 248, 255, 0.25);
+}
+
+/* Studio Zen UI Wrapper */
+.zen-ui-wrapper {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 28px 24px;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.zen-ui-wrapper.zen-hidden {
+  opacity: 0;
+  transform: scale(0.985);
+  pointer-events: none;
+}
+
+/* Top Navigation Bar */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.nav-left-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Logo Symbol Badge */
+.brand-logo-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-md);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: var(--trans-smooth);
+  flex-shrink: 0;
+}
+
+.brand-logo-badge:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 0 20px var(--accent-glow);
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+/* Multi-Page Site Navigation */
+.site-nav {
+  display: flex;
+  align-items: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  padding: 3px 5px;
+  gap: 2px;
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 15px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: var(--trans-fast);
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Top Action Controls */
+.top-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.glass-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 40px;
+  padding: 0 14px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--trans-smooth);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.glass-icon-btn:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  transform: translateY(-1px);
+}
+
+.nav-icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+  color: var(--text-muted);
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+
+.glass-icon-btn:hover .nav-icon {
+  color: var(--accent-cyan);
+}
+
+/* Dropdowns */
+.dropdown-wrap {
+  position: relative;
+}
+
+.glass-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  background: rgba(14, 19, 29, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: var(--radius-md);
+  padding: 8px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: var(--trans-smooth);
+  z-index: 80;
+}
+
+.glass-dropdown.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.dropdown-section-title {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+  padding: 6px 10px 4px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 6px 4px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+}
+
+.dropdown-item.active {
+  background: rgba(56, 189, 248, 0.16);
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+.del-mix-btn {
+  color: #ef4444;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+.del-mix-btn:hover {
+  opacity: 1;
+  background: rgba(239, 68, 68, 0.15);
+}
+
+/* Modal Dialog */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 360px;
+  background: rgba(18, 24, 38, 0.96);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transform: scale(0.95);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.open .modal-box {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.modal-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-family: var(--font-main);
+  outline: none;
+}
+
+.modal-input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.modal-btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: var(--trans-fast);
+}
+
+.modal-btn.cancel {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+}
+
+.modal-btn.confirm {
+  background: var(--accent-cyan);
+  color: #040810;
+  font-weight: 600;
+}
+
+/* Floating Pomodoro Widget (Compact, Non-Intrusive) */
+.pomodoro-widget {
+  position: absolute;
+  top: 74px;
+  right: 28px;
+  width: 155px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 12px 10px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--trans-smooth);
+  z-index: 60;
+}
+
+.pomodoro-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.pomodoro-title {
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-subtle);
+}
+
+.pomodoro-status-tag {
+  font-size: 0.62rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+.pomodoro-display {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.pomodoro-modes {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.pomodoro-mode-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-subtle);
+  font-size: 0.68rem;
+  padding: 4px 0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-main);
+  transition: var(--trans-fast);
+}
+
+.pomodoro-mode-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 500;
+}
+
+.pomodoro-controls {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.pomodoro-ctrl-btn {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  font-size: 0.74rem;
+  font-family: var(--font-main);
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+
+.pomodoro-ctrl-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.pomodoro-ctrl-btn.primary {
+  background: var(--accent-cyan);
+  color: #040810;
+  font-weight: 600;
+  border-color: transparent;
+}
+
+/* Center Clock */
+.center-clock-container {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.zen-time-display {
+  font-family: var(--font-display);
+  font-size: clamp(3.6rem, 8vw, 6.4rem);
+  font-weight: 200;
+  letter-spacing: -0.03em;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1;
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  font-variant-numeric: tabular-nums;
+}
+
+.zen-date-display {
+  font-size: clamp(0.82rem, 1.5vw, 1rem);
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+/* Bottom Studio Player Bar */
+.bottom-dock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 30;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+  display: flex;
+  gap: 5px;
+  background: rgba(14, 19, 28, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 3px 5px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  max-width: 95vw;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-size: 0.74rem;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--trans-fast);
+}
+
+.filter-tab:hover {
+  color: var(--text-main);
+}
+
+.filter-tab.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Main Studio Glass Dock (Floating, Sleek) */
+.player-dock-main {
+  width: 100%;
+  max-width: 1050px;
+  background: rgba(12, 16, 24, 0.62);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 12px 18px 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Sound Cards Track */
+.sounds-track {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 2px 6px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Sleek Floating Sound Button (Mature, Shaffof Shisha, No Box Cards) */
+.sound-card {
+  flex: 0 0 84px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 4px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: var(--trans-smooth);
+}
+
+.sound-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  user-select: none;
+}
+
+.sound-card:hover .sound-icon-wrap {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.38);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.sound-card.playing .sound-icon-wrap {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.55), 0 0 8px rgba(56, 189, 248, 0.8);
+  transform: scale(1.08);
+}
+
+.sound-info {
+  text-align: center;
+  width: 100%;
+}
+
+.sound-name {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s;
+}
+
+.sound-card:hover .sound-name,
+.sound-card.playing .sound-name {
+  color: #fff;
+}
+
+.vol-indicator {
+  display: none; /* Hide cluttered percentage numbers, keep it zen and clean! */
+}
+
+.sound-slider {
+  width: 60px;
+  height: 3px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s, height 0.2s;
+}
+
+.sound-slider:hover {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.sound-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.sound-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: var(--accent-cyan);
+}
+
+/* Master Player Controls Row */
+.dock-master-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 1px solid var(--glass-border);
+  gap: 14px;
+}
+
+.master-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.master-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background: var(--text-main);
+  color: var(--bg-dark);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--trans-smooth);
+}
+
+.master-play-btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+}
+
+.master-play-btn.active {
+  background: var(--accent-cyan);
+  color: #040810;
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+
+.master-vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.master-slider {
+  width: 90px;
+  height: 3px;
+  -webkit-appearance: none;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+}
+
+.master-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.master-status-text {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   DIRECT COMPACT PAGES (sounds.html, focus.html, about.html, contact.html)
+   100% Zero-Scroll, Buttons Directly at the Top, Zero AI Essay Bloat
+   ========================================================================== */
+
+.page-body-compact {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.compact-wrapper {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 28px 24px;
+}
+
+/* Compact Content Canvas */
+.compact-center-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+  gap: 16px;
+}
+
+/* Compact Page Title */
+.compact-header-bar {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.compact-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.compact-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+}
+
+/* Direct Sounds Board (sounds.html) */
+.direct-sound-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  width: 100%;
+  background: rgba(12, 16, 24, 0.62);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 20px 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.direct-sound-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 6px;
+  border-radius: var(--radius-md);
+  transition: var(--trans-smooth);
+}
+
+.direct-sound-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.direct-play-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.74rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+
+.direct-play-btn:hover, .direct-play-btn.playing {
+  background: var(--accent-cyan);
+  color: #040810;
+  font-weight: 600;
+  border-color: transparent;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+/* Direct Focus Board (focus.html) */
+.direct-focus-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 680px;
+  background: rgba(12, 16, 24, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 24px 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.direct-focus-presets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+.preset-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+
+.preset-card-btn:hover {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Compact About (about.html) */
+.direct-about-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 580px;
+  width: 100%;
+  background: rgba(12, 16, 24, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 26px 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  text-align: center;
+}
+
+.direct-about-points {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.about-point {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.about-point span {
+  font-size: 1.2rem;
+}
+
+/* Compact Contact (contact.html) */
+.direct-contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 480px;
+  width: 100%;
+  background: rgba(12, 16, 24, 0.65);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  border-radius: 26px;
+  padding: 24px 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.compact-form-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: 12px;
+  padding: 10px 14px;
+  color: var(--text-main);
+  font-family: var(--font-main);
+  font-size: 0.86rem;
+  outline: none;
+}
+
+.compact-form-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.2);
+}
+
+/* Compact Footer */
+.compact-footer {
+  text-align: center;
+  color: var(--text-subtle);
+  font-size: 0.74rem;
+  padding-top: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .zen-ui-wrapper, .compact-wrapper {
+    padding: 14px 12px 18px;
+  }
+
+  .top-nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .site-nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .nav-link {
+    padding: 5px 10px;
+    font-size: 0.74rem;
+  }
+
+  .top-controls {
+    margin-left: auto;
+  }
+
+  .pomodoro-widget {
+    top: auto;
+    bottom: 215px;
+    right: 12px;
+    width: 140px;
+    padding: 10px;
+  }
+
+  .pomodoro-display {
+    font-size: 1.6rem;
+  }
+
+  .sounds-track {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .sound-card {
+    flex: 0 0 74px;
+  }
+
+  .sound-icon-wrap {
+    width: 44px;
+    height: 44px;
+    font-size: 1.15rem;
+  }
+
+  .sound-slider {
+    width: 50px;
+  }
+
+  .direct-sound-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+
+  .direct-focus-presets {
+    grid-template-columns: 1fr;
+  }
+}
+
+  </style>
+</head>
+<body class="page-body-compact">
+
+  <div class="bg-container">
+    <div class="bg-image-layer" style="background-image: url('assets/video/scene-mountain-wind.jpg');"></div>
+    <div class="bg-vignette"></div>
+  </div>
+
+  <div class="compact-wrapper">
+
+    <!-- Top Header: Logo Badge & Navigation -->
+    <header class="top-nav">
+      <div class="nav-left-group">
+        <!-- Minimalist Logo Badge Alone -->
+        <a href="index.html" class="brand-logo-badge" title="NatureSound.io">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 20px; height: 20px;">
+            <path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8z"/>
+            <path d="M12 6v12M8 9v6M16 9v6M4 11v2M20 11v2"/>
+          </svg>
+        </a>
+
+        <!-- Multi-page Site Navigation -->
+        <nav class="site-nav">
+          <a href="index.html" class="nav-link ">Pleyer</a>
+          <a href="sounds.html" class="nav-link ">Ovozlar</a>
+          <a href="focus.html" class="nav-link ">Fokus</a>
+          <a href="about.html" class="nav-link ">Falsafa</a>
+          <a href="contact.html" class="nav-link active">Aloqa</a>
+        </nav>
+      </div>
+
+    </header>
+
+    <main class="compact-center-content">
+      <div class="direct-contact-card">
+        <h1 class="compact-title" style="font-size: 1.45rem;">Yangi Ovoz Taklif Qilish</h1>
+        <p class="compact-subtitle" style="margin-bottom: 6px;">Qaysi tabiat burchagi yoki ovozini qo'shishimizni xohlaysiz?</p>
+
+        <form id="contact-form" onsubmit="event.preventDefault(); submitContact();" style="display: flex; flex-direction: column; gap: 10px;">
+          <input type="text" id="contact-name" class="compact-form-input" placeholder="Ismingiz" required>
+          <input type="text" id="contact-sound" class="compact-form-input" placeholder="Masalan: Zomin archalari, Amirsoy shabadasi..." required>
+          <button type="submit" id="c-btn" class="glass-icon-btn" style="height: 40px; justify-content: center; background: var(--accent-cyan); color: #040810; font-weight: 600; border-color: transparent;">
+            Taklifni Yuborish
+          </button>
+          <div id="c-ok" style="display:none; color: var(--accent-cyan); font-size: 0.8rem; text-align: center;">Rahmat! Taklifingiz qabul qilindi.</div>
+        </form>
+      </div>
+    </main>
+
+
+    <footer class="compact-footer">
+      <div>&copy; 2026 NatureSound.io &mdash; 100% Sof Organik Tabiat Akustikasi</div>
+    </footer>
+
+  </div>
+
+  <script>
+    function submitContact() {
+      const b = document.getElementById('c-btn');
+      const ok = document.getElementById('c-ok');
+      b.textContent = "Yuborildi!";
+      b.disabled = true;
+      setTimeout(() => {
+        b.style.display = 'none';
+        ok.style.display = 'block';
+      }, 500);
+    }
+  </script>
+</body>
+</html>
