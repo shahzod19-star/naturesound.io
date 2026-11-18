@@ -5,34 +5,1131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tabiat Ovozlar & Fokus | Nature Ambient</title>
   
-  <!-- Google Fonts: Inter & Outfit for modern luxury minimalist typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* ==========================================================================
+   TABIAT AMBIENT | LUXURY MINIMALIST ZEN DESIGN SYSTEM
+   ========================================================================== */
+
+:root {
+  --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', sans-serif;
+  
+  /* Color Palette - Night Luxe (Default) */
+  --bg-dark: #07090e;
+  --glass-bg: rgba(15, 20, 30, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.22);
+  --glass-glow: rgba(120, 180, 255, 0.15);
+  
+  --text-main: #f0f4fc;
+  --text-muted: rgba(240, 244, 252, 0.6);
+  --text-subtle: rgba(240, 244, 252, 0.35);
+  
+  --accent-cyan: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.4);
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  
+  --trans-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --trans-fast: all 0.2s ease;
+}
+
+/* Day Mode Variables */
+body.theme-day {
+  --glass-bg: rgba(245, 248, 255, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --glass-border-hover: rgba(255, 255, 255, 0.7);
+  --glass-glow: rgba(255, 255, 255, 0.3);
+  
+  --text-main: #0f172a;
+  --text-muted: rgba(15, 23, 42, 0.7);
+  --text-subtle: rgba(15, 23, 42, 0.45);
+  
+  --accent-cyan: #0284c7;
+  --accent-glow: rgba(2, 132, 199, 0.25);
+}
+
+/* Reset & Foundation */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-dark);
+  font-family: var(--font-main);
+  color: var(--text-main);
+  user-select: none;
+}
+
+body.zen-cursor-hide {
+  cursor: none;
+}
+
+/* --------------------------------------------------------------------------
+   Dynamic Background & Visual Canvas Layer
+   -------------------------------------------------------------------------- */
+.bg-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+  background: #06080d;
+}
+
+.bg-image-layer {
+  position: absolute;
+  inset: -20px;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 1.8s ease, transform 20s ease-out;
+  transform: scale(1.04);
+  opacity: 0.9;
+  filter: brightness(0.7) contrast(1.1);
+}
+
+body.theme-day .bg-image-layer {
+  filter: brightness(0.9) contrast(1.05);
+}
+
+.bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  pointer-events: none;
+}
+
+.bg-video.active {
+  opacity: 0.85;
+}
+
+.nature-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ambient-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 35%, rgba(4, 6, 12, 0.7) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+body.theme-day .ambient-overlay {
+  background: radial-gradient(circle at center, transparent 40%, rgba(200, 215, 235, 0.35) 100%);
+}
+
+.lightning-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(230, 240, 255, 0.9);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 4;
+  transition: opacity 0.08s ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   Zen UI Wrapper (Smooth Auto-Fade on Inactivity)
+   -------------------------------------------------------------------------- */
+.zen-ui-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 36px;
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zen-ui-wrapper.zen-hidden {
+  opacity: 0;
+  transform: scale(0.99);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Top Navigation
+   -------------------------------------------------------------------------- */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-cyan);
+  box-shadow: 0 0 12px var(--accent-glow);
+  animation: pulseGlow 4s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--text-main);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.brand-sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  padding-left: 8px;
+  border-left: 1px solid var(--glass-border);
+}
+
+.top-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Minimalist Floating Glass Icon Buttons */
+.glass-icon-btn {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text-muted);
+  border-radius: 100px;
+  padding: 8px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  outline: none;
+  transition: var(--trans-smooth);
+}
+
+.glass-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--glass-border-hover);
+  color: var(--text-main);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--glass-glow);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  transition: var(--trans-fast);
+}
+
+.btn-label {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+/* Theme Icon Switcher */
+body.theme-night .icon-sun { display: block; }
+body.theme-night .icon-moon { display: none; }
+body.theme-day .icon-sun { display: none; }
+body.theme-day .icon-moon { display: block; }
+
+/* Preset Dropdown */
+.preset-selector-wrap {
+  position: relative;
+}
+
+.glass-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  background: rgba(12, 16, 25, 0.85);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border-hover);
+  border-radius: 16px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.97);
+  pointer-events: none;
+  transition: var(--trans-smooth);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+
+.preset-selector-wrap.open .glass-dropdown {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.dropdown-item {
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--trans-fast);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  transform: translateX(4px);
+}
+
+.dropdown-item.active {
+  background: rgba(56, 189, 248, 0.12);
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Floating Luxury Pomodoro Widget (Top Right)
+   -------------------------------------------------------------------------- */
+.pomodoro-widget {
+  position: absolute;
+  top: 90px;
+  right: 36px;
+  width: 190px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 18px 16px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: var(--trans-smooth);
+  z-index: 60;
+}
+
+.pomodoro-widget:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+}
+
+.pomodoro-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.pomodoro-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  color: var(--text-subtle);
+  font-weight: 600;
+}
+
+.pomo-mini-btn {
+  background: none;
+  border: none;
+  color: var(--text-subtle);
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  border-radius: 6px;
+  transition: var(--trans-fast);
+}
+
+.pomo-mini-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mini-svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Circular Timer Dial */
+.timer-dial-wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 5;
+}
+
+.timer-progress {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 440;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.8s ease, stroke 0.4s ease;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+.timer-content {
+  position: relative;
+  text-align: center;
+}
+
+.timer-digits {
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text-main);
+  text-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+}
+
+.timer-phase {
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.timer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.pomo-action-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: var(--trans-smooth);
+}
+
+.pomo-action-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  transform: scale(1.08);
+}
+
+.pomo-action-btn.primary {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: var(--accent-cyan);
+}
+
+.pomo-action-btn.primary:hover {
+  background: var(--accent-cyan);
+  color: #040810;
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.action-svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Collapsible Settings Drawer */
+.pomodoro-drawer {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0;
+  border-top: 1px solid transparent;
+}
+
+.pomodoro-widget.settings-open .pomodoro-drawer {
+  max-height: 170px;
+  opacity: 1;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top-color: var(--glass-border);
+}
+
+.drawer-title {
+  font-size: 0.68rem;
+  color: var(--text-subtle);
+  margin-bottom: 8px;
+}
+
+.preset-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: var(--trans-fast);
+}
+
+.pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
+.pill.active {
+  background: rgba(56, 189, 248, 0.18);
+  border-color: var(--accent-cyan);
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.custom-pomo-inputs {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.input-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.input-col label {
+  font-size: 0.6rem;
+  color: var(--text-subtle);
+}
+
+.input-col input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  border-radius: 6px;
+  padding: 4px 6px;
+  font-size: 0.75rem;
+  outline: none;
+  width: 100%;
+}
+
+.input-col input:focus {
+  border-color: var(--accent-cyan);
+}
+
+/* --------------------------------------------------------------------------
+   Center HUD: Clock & Zen Ambient Hint
+   -------------------------------------------------------------------------- */
+.zen-center-hud {
+  align-self: center;
+  text-align: center;
+  pointer-events: none;
+  transform: translateY(-20px);
+}
+
+.live-clock {
+  font-family: var(--font-display);
+  font-size: 4.8rem;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  opacity: 0.85;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+}
+
+.zen-hint {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
+   Soundboard: Minimalist Floating Icons & Sliders
+   -------------------------------------------------------------------------- */
+.soundboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sound-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  width: 100%;
+}
+
+/* Sound Card: Transparent Ghost style with 3D Float Hover */
+.sound-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  padding: 10px 6px;
+  border-radius: 20px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+  perspective: 600px;
+}
+
+.sound-card:hover {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.sound-card.active {
+  background: rgba(20, 30, 48, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Icon Avatar (Clean Minimalist Graphic) */
+.icon-avatar {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  transition: var(--trans-smooth);
+}
+
+.icon-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: scale(0.8);
+}
+
+.sound-card:hover .icon-avatar {
+  color: var(--text-main);
+  transform: translateZ(12px);
+}
+
+.sound-card:hover .icon-avatar::before {
+  opacity: 0.6;
+  transform: scale(1.2);
+}
+
+.sound-card.active .icon-avatar {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 16px var(--accent-glow);
+}
+
+.sound-card.active .icon-avatar::before {
+  opacity: 1;
+  transform: scale(1.3);
+}
+
+.sound-svg {
+  width: 26px;
+  height: 26px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sound-card:hover .sound-svg {
+  transform: scale(1.1);
+}
+
+.sound-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.sound-title {
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  transition: var(--trans-fast);
+}
+
+.sound-card.active .sound-title {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+/* Sleek Minimalist Slider */
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0 4px;
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+
+.sound-card:hover .slider-wrapper,
+.sound-card.active .slider-wrapper {
+  opacity: 1;
+}
+
+.sound-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sound-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-main);
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.sound-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+  background: var(--accent-cyan);
+}
+
+.sound-card.active .sound-slider::-webkit-slider-thumb {
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.vol-indicator {
+  font-size: 0.6rem;
+  color: var(--text-subtle);
+  width: 22px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   Master Audio Dock
+   -------------------------------------------------------------------------- */
+.master-dock {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--glass-border);
+  padding: 8px 18px;
+  border-radius: 100px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.3);
+  transition: var(--trans-smooth);
+}
+
+.master-dock:hover {
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+}
+
+.dock-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: var(--trans-smooth);
+}
+
+.dock-btn:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.08);
+}
+
+.dock-btn.main-play {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: var(--accent-cyan);
+  width: 44px;
+  height: 44px;
+}
+
+.dock-btn.main-play:hover {
+  background: var(--accent-cyan);
+  color: #060912;
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.dock-svg {
+  width: 18px;
+  height: 18px;
+}
+
+.master-vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 4px;
+}
+
+.mini-vol-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--text-subtle);
+}
+
+#master-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 90px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  cursor: pointer;
+}
+
+#master-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--text-main);
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Design
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .zen-ui-wrapper {
+    padding: 20px;
+  }
+  
+  .pomodoro-widget {
+    top: 75px;
+    right: 20px;
+    transform: scale(0.9);
+    transform-origin: top right;
+  }
+
+  .zen-center-hud {
+    transform: translateY(0);
+  }
+
+  .live-clock {
+    font-size: 3.4rem;
+  }
+
+  .sound-grid {
+    gap: 10px 14px;
+  }
+
+  .sound-card {
+    width: 85px;
+  }
+}
+
+@media (max-width: 600px) {
+  .brand-sub, .btn-label {
+    display: none;
+  }
+
+  .live-clock {
+    font-size: 2.8rem;
+  }
+
+  .sound-grid {
+    max-height: 220px;
+    overflow-y: auto;
+  }
+
+  .master-dock {
+    padding: 6px 12px;
+    gap: 10px;
+  }
+}
+
+
+/* ==========================================================================
+   Day Mode Enhancements - Crisp High Contrast
+   ========================================================================== */
+body.theme-day {
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(15, 23, 42, 0.18);
+  --glass-border-hover: rgba(15, 23, 42, 0.4);
+  --glass-glow: rgba(0, 0, 0, 0.08);
+  
+  --text-main: #060a12;
+  --text-muted: #1e293b;
+  --text-subtle: #475569;
+  
+  --accent-cyan: #0284c7;
+  --accent-glow: rgba(2, 132, 199, 0.35);
+}
+
+body.theme-day .sound-card {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+body.theme-day .sound-card:hover,
+body.theme-day .sound-card.active {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(2, 132, 199, 0.6);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.14);
+}
+
+body.theme-day .sound-title {
+  color: #0f172a;
+  font-weight: 600;
+}
+
+body.theme-day .icon-avatar {
+  color: #1e293b;
+}
+
+body.theme-day .sound-card.active .icon-avatar {
+  color: #0284c7;
+}
+
+body.theme-day .live-clock {
+  color: #060a12;
+  text-shadow: 0 2px 25px rgba(255, 255, 255, 0.95);
+}
+
+body.theme-day .zen-hint {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+body.theme-day .timer-track {
+  stroke: rgba(0, 0, 0, 0.12);
+}
+
+body.theme-day .timer-digits {
+  color: #060a12;
+  text-shadow: none;
+}
+
+body.theme-day .timer-phase {
+  color: #0284c7;
+  font-weight: 600;
+}
+
+body.theme-day .sound-slider {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+body.theme-day .sound-slider::-webkit-slider-thumb {
+  background: #0284c7;
+}
+
+body.theme-day .vol-indicator {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+body.theme-day .brand-title {
+  color: #060a12;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
+}
+
+body.theme-day .brand-sub {
+  color: #334155;
+  font-weight: 500;
+}
+
+body.theme-day .glass-icon-btn {
+  background: rgba(255, 255, 255, 0.82);
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+body.theme-day .glass-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.98);
+  color: #0284c7;
+  border-color: rgba(2, 132, 199, 0.5);
+}
+
+body.theme-day .glass-dropdown {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(15, 23, 42, 0.18);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.15);
+}
+
+body.theme-day .dropdown-item {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+body.theme-day .dropdown-item:hover {
+  background: rgba(2, 132, 199, 0.08);
+  color: #0284c7;
+}
+
+body.theme-day .pomo-action-btn {
+  background: rgba(0, 0, 0, 0.06);
+  color: #0f172a;
+  border-color: rgba(15, 23, 42, 0.15);
+}
+
+body.theme-day .pomo-action-btn.primary {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+body.theme-day .master-dock {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(15, 23, 42, 0.18);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+}
+
+body.theme-day .dock-btn {
+  color: #1e293b;
+}
+
+body.theme-day #master-volume-slider {
+  background: rgba(0, 0, 0, 0.18);
+}
+
+body.theme-day #master-volume-slider::-webkit-slider-thumb {
+  background: #0284c7;
+}
+
+body.theme-day .pill {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1e293b;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.theme-day .pill.active {
+  background: rgba(2, 132, 199, 0.15);
+  border-color: #0284c7;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+body.theme-day .input-col label {
+  color: #334155;
+  font-weight: 600;
+}
+
+body.theme-day .input-col input {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #060a12;
+}
+
+  </style>
 </head>
 <body class="theme-night">
   <!-- Dynamic Background Container -->
   <div id="bg-container" class="bg-container">
-    <!-- Active high-res photo layer with subtle Ken Burns drift -->
     <div id="bg-image-layer" class="bg-image-layer"></div>
-    
-    <!-- Optional Custom / Ambient HTML5 Video Layer -->
     <video id="bg-video" class="bg-video" autoplay loop muted playsinline></video>
-    
-    <!-- High-Performance Living Nature Canvas (Rain, Snow, Embers, Stars) -->
     <canvas id="nature-canvas" class="nature-canvas"></canvas>
-    
-    <!-- Ambient Vignette & Color Grading Overlay -->
     <div class="ambient-overlay"></div>
     <div id="lightning-flash" class="lightning-flash"></div>
   </div>
 
-  <!-- Main User Interface (Auto-fades in Zen mode after 3.5s of inactivity) -->
+  <!-- Main User Interface (Auto-fades in Zen mode after 3.5s) -->
   <div id="zen-ui-wrapper" class="zen-ui-wrapper">
     
-    <!-- Top Header: Logo / Brand & Quick Actions -->
+    <!-- Top Header -->
     <header class="top-nav">
       <div class="brand">
         <span class="brand-dot"></span>
@@ -53,10 +1150,10 @@
           <div id="preset-menu" class="glass-dropdown">
             <div class="dropdown-item active" data-preset="rain">🌧️ Kuzgi Yomg'ir</div>
             <div class="dropdown-item" data-preset="thunder">⚡ Momaqaldiroq & Jala</div>
-            <div class="dropdown-item" data-preset="snow">❄️ Qorli Tungi Izg'irin</div>
+            <div class="dropdown-item" data-preset="snow">❄️ Qorli Bo'ron</div>
             <div class="dropdown-item" data-preset="forest">🌲 Tog' O'rmoni & Shamol</div>
             <div class="dropdown-item" data-preset="campfire">🔥 Sokin Gulxan & Olov</div>
-            <div class="dropdown-item" data-preset="deep_focus">🌙 Tungi Chuqur Fokus</div>
+            <div class="dropdown-item" data-preset="deep_focus">🌊 Daryo & Mayin Yomg'ir</div>
           </div>
         </div>
 
@@ -88,7 +1185,7 @@
       </div>
     </header>
 
-    <!-- Top-Right: Aesthetic Floating Pomodoro Widget -->
+    <!-- Top-Right: Floating Pomodoro Widget -->
     <aside id="pomodoro-widget" class="pomodoro-widget">
       <div class="pomodoro-header">
         <span class="pomodoro-title">POMODORO FOKUS</span>
@@ -100,7 +1197,6 @@
         </button>
       </div>
 
-      <!-- Glowing Circular Timer Dial -->
       <div class="timer-dial-wrapper">
         <svg class="timer-svg" viewBox="0 0 160 160">
           <circle class="timer-track" cx="80" cy="80" r="70"></circle>
@@ -113,7 +1209,6 @@
         </div>
       </div>
 
-      <!-- Quick Action Controls -->
       <div class="timer-actions">
         <button id="timer-start-btn" class="pomo-action-btn primary" title="Boshlash / To'xtatib turish">
           <svg id="timer-play-icon" viewBox="0 0 24 24" fill="currentColor" class="action-svg">
@@ -132,7 +1227,6 @@
         </button>
       </div>
 
-      <!-- Presets & Setting Drawer (Collapsible) -->
       <div id="pomodoro-drawer" class="pomodoro-drawer">
         <div class="drawer-title">Rejim tanlang:</div>
         <div class="preset-pills">
@@ -153,17 +1247,17 @@
       </div>
     </aside>
 
-    <!-- Center Screen Subtle Focus Quote or Clock (Optional Zen Indicator) -->
+    <!-- Center Screen Clock -->
     <div class="zen-center-hud">
       <div id="live-clock" class="live-clock">12:30</div>
       <div class="zen-hint">Tabiat bilan uyg'unlikda diqqatingizni jamlang</div>
     </div>
 
-    <!-- Bottom Audio Soundboard / Mixer: Sophisticated Floating Glass Icons -->
+    <!-- Bottom Audio Soundboard (8 Clean Nature Channels) -->
     <main class="soundboard-container">
       <div class="sound-grid" id="sound-grid">
         
-        <!-- 1. Yomg'ir (Rain) -->
+        <!-- 1. Mayin Yomg'ir -->
         <div class="sound-card" data-sound-id="rain">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -179,7 +1273,7 @@
           </div>
         </div>
 
-        <!-- 2. Qattiq Jala (Heavy Rain) -->
+        <!-- 2. Kuchli Jala -->
         <div class="sound-card" data-sound-id="heavy_rain">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -195,7 +1289,7 @@
           </div>
         </div>
 
-        <!-- 3. Momaqaldiroq (Thunder) -->
+        <!-- 3. Momaqaldiroq -->
         <div class="sound-card" data-sound-id="thunder">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -211,7 +1305,7 @@
           </div>
         </div>
 
-        <!-- 4. Shamol (Wind) -->
+        <!-- 4. Tog' Shamoli -->
         <div class="sound-card" data-sound-id="wind">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -227,7 +1321,7 @@
           </div>
         </div>
 
-        <!-- 5. Qor / Izg'irin (Snow / Winter Blizzard) -->
+        <!-- 5. Qor Bo'roni -->
         <div class="sound-card" data-sound-id="snow">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -246,7 +1340,7 @@
           </div>
         </div>
 
-        <!-- 6. O'rmon & Qushlar (Forest Birds) -->
+        <!-- 6. O'rmon Qushlari -->
         <div class="sound-card" data-sound-id="birds">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -262,7 +1356,7 @@
           </div>
         </div>
 
-        <!-- 7. Sokin Daryo / Irmoq (Stream) -->
+        <!-- 7. Daryo Oqimi -->
         <div class="sound-card" data-sound-id="stream">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -278,7 +1372,7 @@
           </div>
         </div>
 
-        <!-- 8. Gulxan & Olov (Campfire) -->
+        <!-- 8. Mayin Olov -->
         <div class="sound-card" data-sound-id="campfire">
           <div class="icon-avatar">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
@@ -294,29 +1388,10 @@
           </div>
         </div>
 
-        <!-- 9. Tun & Chigirtkalar (Night Crickets) -->
-        <div class="sound-card" data-sound-id="night">
-          <div class="icon-avatar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-              <circle cx="19" cy="5" r="1" fill="currentColor"/>
-              <circle cx="16" cy="2" r="0.7" fill="currentColor"/>
-            </svg>
-          </div>
-          <div class="sound-info">
-            <span class="sound-title">Tungi Sokinlik</span>
-            <div class="slider-wrapper">
-              <input type="range" class="sound-slider" min="0" max="100" value="0">
-              <span class="vol-indicator">0%</span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
       <!-- Master Audio Bar -->
       <div class="master-dock">
-        <!-- Master Mute/Play -->
         <button id="master-play-btn" class="dock-btn main-play" title="Barcha ovozlarni to'xtatish / yoqish">
           <svg id="master-play-svg" viewBox="0 0 24 24" fill="currentColor" class="dock-svg">
             <polygon points="5 3 19 12 5 21 5 3"/>
@@ -327,7 +1402,6 @@
           </svg>
         </button>
 
-        <!-- Master Volume Slider -->
         <div class="master-vol-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mini-vol-icon">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -336,7 +1410,6 @@
           <input type="range" id="master-volume-slider" min="0" max="100" value="80">
         </div>
 
-        <!-- Randomize / Shuffle Mix -->
         <button id="shuffle-mix-btn" class="dock-btn" title="Tasodifiy mayin miks">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="dock-svg">
             <polyline points="16 3 21 3 21 8"/>
@@ -347,7 +1420,6 @@
           </svg>
         </button>
 
-        <!-- Reset All to 0 -->
         <button id="reset-all-btn" class="dock-btn" title="Barcha ovozlarni o'chirish">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="dock-svg">
             <line x1="18" y1="6" x2="6" y2="18"/>
@@ -359,23 +1431,1074 @@
 
   </div>
 
-  <!-- Audio Source Elements (Referencing local assets, ready for GitHub) -->
-  <audio id="audio-rain" src="assets/audio/rain.mp3" loop preload="auto"></audio>
-  <audio id="audio-heavy_rain" src="assets/audio/gentle-rain.mp3" loop preload="auto"></audio>
-  <audio id="audio-thunder" src="assets/audio/thunder.mp3" loop preload="auto"></audio>
-  <audio id="audio-wind" src="assets/audio/wind.mp3" loop preload="auto"></audio>
-  <audio id="audio-snow" src="assets/audio/snow-blizzard.mp3" loop preload="auto"></audio>
-  <audio id="audio-birds" src="assets/audio/birds-forest.mp3" loop preload="auto"></audio>
-  <audio id="audio-stream" src="assets/audio/stream-water.mp3" loop preload="auto"></audio>
-  <audio id="audio-campfire" src="assets/audio/campfire.mp3" loop preload="auto"></audio>
-  <audio id="audio-night" src="assets/audio/night-crickets.mp3" loop preload="auto"></audio>
-  <audio id="audio-chime" src="assets/audio/bell-chime.mp3" preload="auto"></audio>
+  <!-- Audio Source Elements with Online CDN Fallbacks -->
+  <audio id="audio-rain" src="assets/audio/rain.mp3" onerror="this.onerror=null; this.src='https://assets.mixkit.co/active_storage/sfx/2516/2516-preview.mp3';" loop preload="auto"></audio>
+  <audio id="audio-heavy_rain" src="assets/audio/gentle-rain.mp3" onerror="this.onerror=null; this.src='https://assets.mixkit.co/active_storage/sfx/2515/2515-preview.mp3';" loop preload="auto"></audio>
+  <audio id="audio-thunder" src="assets/audio/thunder.mp3" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/bradtraversy/ambient-sound-mixer/master/audio/thunder.mp3';" loop preload="auto"></audio>
+  <audio id="audio-wind" src="assets/audio/wind.mp3" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/remvze/moodist/main/public/sounds/nature/wind-in-trees.mp3';" loop preload="auto"></audio>
+  <audio id="audio-snow" src="assets/audio/snow-blizzard.mp3" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/remvze/moodist/main/public/sounds/nature/howling-wind.mp3';" loop preload="auto"></audio>
+  <audio id="audio-birds" src="assets/audio/birds-forest.mp3" onerror="this.onerror=null; this.src='https://assets.mixkit.co/active_storage/sfx/2434/2434-preview.mp3';" loop preload="auto"></audio>
+  <audio id="audio-stream" src="assets/audio/stream-water.mp3" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/remvze/moodist/main/public/sounds/nature/river.mp3';" loop preload="auto"></audio>
+  <audio id="audio-campfire" src="assets/audio/campfire.mp3" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/remvze/moodist/main/public/sounds/nature/campfire.mp3';" loop preload="auto"></audio>
+  <audio id="audio-chime" src="assets/audio/bell-chime.mp3" onerror="this.onerror=null; this.src='https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3';" preload="auto"></audio>
 
-  <!-- Modular Scripts -->
-  <script src="js/visual-engine.js"></script>
-  <script src="js/audio-mixer.js"></script>
-  <script src="js/pomodoro.js"></script>
-  <script src="js/zen-mode.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Self-Contained Complete JavaScript Engine -->
+  <script>
+
+/* --- visual-engine.js --- */
+/**
+ * TABIAT AMBIENT | Unified Reactive Visual Engine
+ * Single universal nature landscape that dynamically morphs weather (rain, snow, wind, fire)
+ * in real-time based on active sound sliders!
+ */
+
+class VisualEngine {
+  constructor() {
+    this.canvas = document.getElementById('nature-canvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.bgImageLayer = document.getElementById('bg-image-layer');
+    this.lightningEl = document.getElementById('lightning-flash');
+
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+
+    // Real-time weather intensities (0.0 to 1.0)
+    this.weather = {
+      rain: 0,
+      heavy_rain: 0,
+      snow: 0,
+      wind: 0,
+      campfire: 0,
+      stream: 0,
+      thunder: 0
+    };
+
+    // Pre-allocated particles
+    this.rainDrops = [];
+    this.glassDrops = [];
+    this.snowflakes = [];
+    this.embers = [];
+    this.leaves = [];
+
+    this.initCanvas();
+    this.initParticles();
+    this.setUniversalBackground();
+    
+    this.animate = this.animate.bind(this);
+    requestAnimationFrame(this.animate);
+  }
+
+  initCanvas() {
+    this.resize();
+    window.addEventListener('resize', () => this.resize());
+  }
+
+  resize() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+  }
+
+  setUniversalBackground() {
+    // Majestic pine forest & mountain lake atmosphere
+    const localUrl = 'assets/video/bg-forest.jpg';
+    const cdnUrl = 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=80';
+
+    const img = new Image();
+    img.onload = () => {
+      this.bgImageLayer.style.backgroundImage = `url('${localUrl}')`;
+    };
+    img.onerror = () => {
+      this.bgImageLayer.style.backgroundImage = `url('${cdnUrl}')`;
+    };
+    img.src = localUrl;
+  }
+
+  initParticles() {
+    // 1. Rain streaks
+    for (let i = 0; i < 300; i++) {
+      this.rainDrops.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        len: Math.random() * 20 + 12,
+        speed: Math.random() * 12 + 15,
+        opacity: Math.random() * 0.4 + 0.2
+      });
+    }
+
+    // 2. Condensation glass droplets
+    for (let i = 0; i < 50; i++) {
+      this.glassDrops.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        radius: Math.random() * 2.5 + 1,
+        speed: Math.random() * 0.5 + 0.1
+      });
+    }
+
+    // 3. 3D Snowflakes
+    for (let i = 0; i < 200; i++) {
+      this.snowflakes.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        radius: Math.random() * 3 + 0.8,
+        speed: Math.random() * 1.5 + 0.6,
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: Math.random() * 0.02 + 0.01,
+        opacity: Math.random() * 0.75 + 0.2
+      });
+    }
+
+    // 4. Campfire glowing embers
+    for (let i = 0; i < 90; i++) {
+      this.embers.push({
+        x: this.width * 0.5 + (Math.random() - 0.5) * 500,
+        y: this.height + Math.random() * 50,
+        size: Math.random() * 3.5 + 1.2,
+        speedY: Math.random() * 2.2 + 1.0,
+        speedX: (Math.random() - 0.5) * 1.6,
+        alpha: Math.random() * 0.8 + 0.2,
+        hue: Math.random() * 28 + 18 // Warm amber/orange
+      });
+    }
+
+    // 5. Wind-blown leaves
+    for (let i = 0; i < 40; i++) {
+      this.leaves.push({
+        x: Math.random() * this.width,
+        y: Math.random() * this.height,
+        size: Math.random() * 7 + 4,
+        speedY: Math.random() * 1.2 + 0.5,
+        speedX: Math.random() * 2.5 + 1.2,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.04,
+        opacity: Math.random() * 0.5 + 0.2
+      });
+    }
+  }
+
+  updateVolume(soundId, volume) {
+    if (this.weather.hasOwnProperty(soundId)) {
+      this.weather[soundId] = volume;
+    }
+  }
+
+  triggerLightning() {
+    if (!this.lightningEl) return;
+    this.lightningEl.style.opacity = '0.9';
+    setTimeout(() => {
+      this.lightningEl.style.opacity = '0.2';
+      setTimeout(() => {
+        this.lightningEl.style.opacity = '0.7';
+        setTimeout(() => {
+          this.lightningEl.style.opacity = '0';
+        }, 80);
+      }, 60);
+    }, 50);
+  }
+
+  animate() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+
+    const rainIntensity = Math.max(this.weather.rain, this.weather.heavy_rain * 1.3);
+    const snowIntensity = this.weather.snow;
+    const windIntensity = this.weather.wind;
+    const fireIntensity = this.weather.campfire;
+
+    // Wind calculates global particle slant
+    const windSlant = -1.5 - windIntensity * 10;
+
+    // 1. Draw Campfire warm ambient glow overlay
+    if (fireIntensity > 0.03) {
+      this.drawCampfireGlow(fireIntensity);
+      this.drawEmbers(fireIntensity, windIntensity);
+    }
+
+    // 2. Draw Winter frost vignette if snow is active
+    if (snowIntensity > 0.03) {
+      this.drawFrostVignette(snowIntensity);
+      this.drawSnow(snowIntensity, windSlant);
+    }
+
+    // 3. Draw Wind leaves
+    if (windIntensity > 0.05) {
+      this.drawLeaves(windIntensity);
+    }
+
+    // 4. Draw Rain streaks & glass condensation droplets
+    if (rainIntensity > 0.03) {
+      this.drawRain(rainIntensity, windSlant);
+    }
+
+    requestAnimationFrame(this.animate);
+  }
+
+  drawRain(intensity, slant) {
+    const activeCount = Math.floor(intensity * this.rainDrops.length);
+    this.ctx.strokeStyle = `rgba(215, 235, 255, ${0.25 + intensity * 0.35})`;
+    this.ctx.lineWidth = 1.0 + intensity * 0.6;
+
+    for (let i = 0; i < activeCount; i++) {
+      const p = this.rainDrops[i];
+      this.ctx.beginPath();
+      this.ctx.moveTo(p.x, p.y);
+      this.ctx.lineTo(p.x + slant, p.y + p.len * (1 + intensity * 0.5));
+      this.ctx.stroke();
+
+      p.y += p.speed * (1 + intensity * 0.4);
+      p.x += slant;
+
+      if (p.y > this.height) {
+        p.y = -p.len;
+        p.x = Math.random() * this.width;
+      }
+    }
+
+    // Window glass droplets
+    const glassCount = Math.floor(intensity * this.glassDrops.length);
+    this.ctx.fillStyle = `rgba(255, 255, 255, ${0.35 + intensity * 0.35})`;
+    for (let i = 0; i < glassCount; i++) {
+      const d = this.glassDrops[i];
+      this.ctx.beginPath();
+      this.ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      d.y += d.speed * (1 + intensity * 0.8);
+      if (d.y > this.height) {
+        d.y = -5;
+        d.x = Math.random() * this.width;
+      }
+    }
+  }
+
+  drawSnow(intensity, slant) {
+    const activeCount = Math.floor(intensity * this.snowflakes.length);
+    for (let i = 0; i < activeCount; i++) {
+      const p = this.snowflakes[i];
+      this.ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * intensity})`;
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      p.y += p.speed * (1 + intensity * 0.3);
+      p.x += Math.sin(p.sway) * 0.8 + slant * 0.3;
+      p.sway += p.swaySpeed;
+
+      if (p.y > this.height) {
+        p.y = -p.radius;
+        p.x = Math.random() * this.width;
+      }
+    }
+  }
+
+  drawFrostVignette(intensity) {
+    const gradient = this.ctx.createRadialGradient(
+      this.width / 2, this.height / 2, this.height * 0.35,
+      this.width / 2, this.height / 2, this.height * 0.8
+    );
+    gradient.addColorStop(0, 'rgba(215, 235, 255, 0)');
+    gradient.addColorStop(1, `rgba(215, 235, 255, ${intensity * 0.42})`);
+
+    this.ctx.fillStyle = gradient;
+    this.ctx.fillRect(0, 0, this.width, this.height);
+  }
+
+  drawCampfireGlow(intensity) {
+    const flicker = 0.95 + Math.sin(Date.now() * 0.015) * 0.05;
+    const gradient = this.ctx.createRadialGradient(
+      this.width / 2, this.height + 40, 20,
+      this.width / 2, this.height, this.height * 0.55
+    );
+    gradient.addColorStop(0, `rgba(255, 140, 40, ${intensity * 0.45 * flicker})`);
+    gradient.addColorStop(0.5, `rgba(240, 90, 20, ${intensity * 0.22 * flicker})`);
+    gradient.addColorStop(1, 'rgba(200, 60, 10, 0)');
+
+    this.ctx.fillStyle = gradient;
+    this.ctx.fillRect(0, this.height * 0.45, this.width, this.height * 0.55);
+  }
+
+  drawEmbers(intensity, wind) {
+    const activeCount = Math.floor(intensity * this.embers.length);
+    for (let i = 0; i < activeCount; i++) {
+      const e = this.embers[i];
+      this.ctx.fillStyle = `hsla(${e.hue}, 95%, 62%, ${e.alpha * intensity})`;
+      this.ctx.beginPath();
+      this.ctx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      e.y -= e.speedY;
+      e.x += e.speedX + (wind > 0.05 ? -wind * 2.5 : 0);
+      e.alpha -= 0.003;
+
+      if (e.y < -10 || e.alpha <= 0) {
+        e.y = this.height + 10;
+        e.x = this.width * 0.5 + (Math.random() - 0.5) * 500;
+        e.alpha = Math.random() * 0.8 + 0.3;
+      }
+    }
+  }
+
+  drawLeaves(intensity) {
+    const activeCount = Math.floor(intensity * this.leaves.length);
+    for (let i = 0; i < activeCount; i++) {
+      const l = this.leaves[i];
+      this.ctx.save();
+      this.ctx.translate(l.x, l.y);
+      this.ctx.rotate(l.rotation);
+
+      this.ctx.fillStyle = `rgba(225, 150, 70, ${l.opacity * intensity})`;
+      this.ctx.beginPath();
+      this.ctx.ellipse(0, 0, l.size, l.size * 0.45, 0, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.restore();
+
+      l.y += l.speedY;
+      l.x += l.speedX * (1 + intensity * 1.5);
+      l.rotation += l.rotSpeed;
+
+      if (l.y > this.height || l.x > this.width) {
+        l.y = Math.random() * -50;
+        l.x = Math.random() * this.width * 0.6;
+      }
+    }
+  }
+}
+
+/* --- audio-mixer.js --- */
+/**
+ * TABIAT AMBIENT | Audio Mixer Engine
+ * Rock-solid HTML5 Audio engine connected to dynamic reactive visual engine
+ */
+
+class AudioMixer {
+  constructor(visualEngine) {
+    this.visualEngine = visualEngine;
+    this.channels = {}; // soundId -> { id, el, volume: 0, active: false, fadeTimer: null }
+    this.masterVolume = 0.8;
+    this.isPlaying = false;
+    this.activeChannelsSnapshot = {};
+    this.thunderInterval = null;
+
+    this.registerDomChannels();
+  }
+
+  registerDomChannels() {
+    const audioElements = document.querySelectorAll('audio[id^="audio-"]');
+    audioElements.forEach(el => {
+      const id = el.id.replace('audio-', '');
+      this.channels[id] = {
+        id: id,
+        el: el,
+        volume: 0,
+        active: false,
+        fadeTimer: null
+      };
+      el.volume = 0;
+      el.loop = (id !== 'chime');
+    });
+  }
+
+  setVolume(id, targetVol, duration = 0.2) {
+    const ch = this.channels[id];
+    if (!ch) return;
+
+    const clampedVol = Math.max(0, Math.min(1, targetVol));
+    ch.volume = clampedVol;
+
+    if (ch.fadeTimer) {
+      clearInterval(ch.fadeTimer);
+      ch.fadeTimer = null;
+    }
+
+    const targetEffective = clampedVol * this.masterVolume;
+    const startEffective = ch.el.volume;
+    
+    if (duration > 0.05 && Math.abs(targetEffective - startEffective) > 0.05) {
+      const steps = 15;
+      const stepTime = (duration * 1000) / steps;
+      let currentStep = 0;
+
+      if (clampedVol > 0 && ch.el.paused) {
+        ch.el.play().catch(e => console.warn('Play prevented by browser:', e));
+      }
+
+      ch.fadeTimer = setInterval(() => {
+        currentStep++;
+        const factor = currentStep / steps;
+        const newVol = startEffective + (targetEffective - startEffective) * factor;
+        ch.el.volume = Math.max(0, Math.min(1, newVol));
+
+        if (currentStep >= steps) {
+          clearInterval(ch.fadeTimer);
+          ch.fadeTimer = null;
+          ch.el.volume = targetEffective;
+          if (clampedVol === 0) ch.el.pause();
+        }
+      }, stepTime);
+    } else {
+      ch.el.volume = targetEffective;
+      if (clampedVol > 0) {
+        if (ch.el.paused) {
+          ch.el.play().catch(e => console.warn('Play prevented by browser:', e));
+        }
+      } else {
+        ch.el.pause();
+      }
+    }
+
+    ch.active = clampedVol > 0;
+
+    // Real-time reactive weather updates!
+    if (this.visualEngine) {
+      this.visualEngine.updateVolume(id, clampedVol);
+    }
+
+    // Handle thunder visual trigger
+    if (id === 'thunder') {
+      this.handleThunderLighting(clampedVol);
+    }
+
+    this.updateCardUi(id, clampedVol);
+    this.updateMasterPlayButtonState();
+  }
+
+  handleThunderLighting(volume) {
+    if (volume > 0.15) {
+      if (!this.thunderInterval) {
+        this.thunderInterval = setInterval(() => {
+          if (this.channels['thunder'] && this.channels['thunder'].volume > 0.15) {
+            if (this.visualEngine) this.visualEngine.triggerLightning();
+          }
+        }, 12000);
+      }
+    } else {
+      if (this.thunderInterval) {
+        clearInterval(this.thunderInterval);
+        this.thunderInterval = null;
+      }
+    }
+  }
+
+  setMasterVolume(val) {
+    const clamped = Math.max(0, Math.min(1, val));
+    this.masterVolume = clamped;
+
+    Object.values(this.channels).forEach(ch => {
+      ch.el.volume = Math.max(0, Math.min(1, ch.volume * clamped));
+    });
+  }
+
+  toggleMasterPlay() {
+    const isAnyActive = Object.values(this.channels).some(ch => ch.volume > 0.01);
+
+    if (isAnyActive) {
+      this.activeChannelsSnapshot = {};
+      Object.keys(this.channels).forEach(id => {
+        if (this.channels[id].volume > 0.01) {
+          this.activeChannelsSnapshot[id] = this.channels[id].volume;
+          this.setVolume(id, 0, 0.3);
+        }
+      });
+      this.isPlaying = false;
+    } else {
+      const snapshotKeys = Object.keys(this.activeChannelsSnapshot);
+      if (snapshotKeys.length > 0) {
+        snapshotKeys.forEach(id => {
+          this.setVolume(id, this.activeChannelsSnapshot[id], 0.4);
+        });
+      } else {
+        this.setVolume('rain', 0.6, 0.4);
+        this.setVolume('wind', 0.25, 0.4);
+      }
+      this.isPlaying = true;
+    }
+
+    this.updateMasterPlayButtonState();
+  }
+
+  resetAll() {
+    Object.keys(this.channels).forEach(id => {
+      this.setVolume(id, 0, 0.2);
+    });
+    this.activeChannelsSnapshot = {};
+    this.isPlaying = false;
+    this.updateMasterPlayButtonState();
+  }
+
+  applyPreset(presetMap, duration = 0.8) {
+    Object.keys(this.channels).forEach(id => {
+      const targetVol = presetMap[id] || 0;
+      this.setVolume(id, targetVol, duration);
+    });
+  }
+
+  playChime() {
+    const chime = document.getElementById('audio-chime');
+    if (chime) {
+      chime.currentTime = 0;
+      chime.volume = Math.min(1, 0.9 * this.masterVolume);
+      chime.play().catch(() => {});
+    }
+  }
+
+  updateCardUi(id, volume) {
+    const card = document.querySelector(`.sound-card[data-sound-id="${id}"]`);
+    if (!card) return;
+
+    const slider = card.querySelector('.sound-slider');
+    const indicator = card.querySelector('.vol-indicator');
+    const percent = Math.round(volume * 100);
+
+    if (slider) slider.value = percent;
+    if (indicator) indicator.textContent = `${percent}%`;
+
+    if (percent > 0) {
+      card.classList.add('active');
+    } else {
+      card.classList.remove('active');
+    }
+  }
+
+  updateMasterPlayButtonState() {
+    const playSvg = document.getElementById('master-play-svg');
+    const pauseSvg = document.getElementById('master-pause-svg');
+    if (!playSvg || !pauseSvg) return;
+
+    const hasActiveSound = Object.values(this.channels).some(ch => ch.volume > 0.01);
+    this.isPlaying = hasActiveSound;
+
+    if (hasActiveSound) {
+      playSvg.style.display = 'none';
+      pauseSvg.style.display = 'block';
+    } else {
+      playSvg.style.display = 'block';
+      pauseSvg.style.display = 'none';
+    }
+  }
+}
+
+/* --- pomodoro.js --- */
+/**
+ * TABIAT AMBIENT | Pomodoro Focus Timer
+ * Elegant circular dial timer with customizable study & break intervals
+ */
+
+class PomodoroTimer {
+  constructor(audioMixer) {
+    this.audioMixer = audioMixer;
+    
+    // Configurable defaults
+    this.workMinutes = 25;
+    this.breakMinutes = 5;
+    
+    // State
+    this.currentPhase = 'work'; // 'work' or 'break'
+    this.totalSeconds = this.workMinutes * 60;
+    this.remainingSeconds = this.totalSeconds;
+    this.isRunning = false;
+    this.timerInterval = null;
+
+    // DOM Elements
+    this.displayEl = document.getElementById('timer-display');
+    this.phaseLabelEl = document.getElementById('timer-phase-label');
+    this.progressRingEl = document.getElementById('timer-progress');
+    this.startBtn = document.getElementById('timer-start-btn');
+    this.resetBtn = document.getElementById('timer-reset-btn');
+    this.playIcon = document.getElementById('timer-play-icon');
+    this.pauseIcon = document.getElementById('timer-pause-icon');
+    this.settingsToggleBtn = document.getElementById('pomodoro-settings-toggle');
+    this.widgetEl = document.getElementById('pomodoro-widget');
+    
+    this.circumference = 2 * Math.PI * 70; // 439.82
+    this.progressRingEl.style.strokeDasharray = `${this.circumference}`;
+
+    this.initEventListeners();
+    this.updateDisplay();
+  }
+
+  initEventListeners() {
+    this.startBtn.addEventListener('click', () => this.toggle());
+    this.resetBtn.addEventListener('click', () => this.reset());
+
+    // Settings drawer toggle
+    this.settingsToggleBtn.addEventListener('click', () => {
+      this.widgetEl.classList.toggle('settings-open');
+    });
+
+    // Preset pills (25/5, 35/5, 45/10)
+    const pills = document.querySelectorAll('.preset-pills .pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const work = parseInt(pill.dataset.work, 10);
+        const brk = parseInt(pill.dataset.break, 10);
+        this.setIntervals(work, brk);
+
+        const workInput = document.getElementById('custom-work-min');
+        const breakInput = document.getElementById('custom-break-min');
+        if (workInput) workInput.value = work;
+        if (breakInput) breakInput.value = brk;
+      });
+    });
+
+    // Custom inputs
+    const workInput = document.getElementById('custom-work-min');
+    const breakInput = document.getElementById('custom-break-min');
+
+    const handleCustomChange = () => {
+      pills.forEach(p => p.classList.remove('active'));
+      const work = Math.max(1, parseInt(workInput.value, 10) || 25);
+      const brk = Math.max(1, parseInt(breakInput.value, 10) || 5);
+      this.setIntervals(work, brk);
+    };
+
+    if (workInput) workInput.addEventListener('change', handleCustomChange);
+    if (breakInput) breakInput.addEventListener('change', handleCustomChange);
+  }
+
+  setIntervals(workMin, breakMin) {
+    this.workMinutes = workMin;
+    this.breakMinutes = breakMin;
+    this.reset();
+  }
+
+  toggle() {
+    if (this.isRunning) {
+      this.pause();
+    } else {
+      this.start();
+    }
+  }
+
+  start() {
+    if (this.isRunning) return;
+    this.isRunning = true;
+    this.playIcon.style.display = 'none';
+    this.pauseIcon.style.display = 'block';
+
+    this.timerInterval = setInterval(() => {
+      this.tick();
+    }, 1000);
+  }
+
+  pause() {
+    this.isRunning = false;
+    this.playIcon.style.display = 'block';
+    this.pauseIcon.style.display = 'none';
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+      this.timerInterval = null;
+    }
+  }
+
+  reset() {
+    this.pause();
+    this.currentPhase = 'work';
+    this.totalSeconds = this.workMinutes * 60;
+    this.remainingSeconds = this.totalSeconds;
+    this.updateDisplay();
+  }
+
+  tick() {
+    if (this.remainingSeconds > 0) {
+      this.remainingSeconds--;
+      this.updateDisplay();
+    } else {
+      // Phase completed!
+      this.onPhaseComplete();
+    }
+  }
+
+  onPhaseComplete() {
+    this.pause();
+    if (this.audioMixer) {
+      this.audioMixer.playChime();
+    }
+
+    if (this.currentPhase === 'work') {
+      this.currentPhase = 'break';
+      this.totalSeconds = this.breakMinutes * 60;
+      this.remainingSeconds = this.totalSeconds;
+      this.phaseLabelEl.textContent = 'TANAFFUS (DAM OLISH)';
+      this.phaseLabelEl.style.color = '#34d399'; // Emerald
+      this.progressRingEl.style.stroke = '#34d399';
+    } else {
+      this.currentPhase = 'work';
+      this.totalSeconds = this.workMinutes * 60;
+      this.remainingSeconds = this.totalSeconds;
+      this.phaseLabelEl.textContent = 'DARS VAQTI';
+      this.phaseLabelEl.style.color = 'var(--accent-cyan)';
+      this.progressRingEl.style.stroke = 'var(--accent-cyan)';
+    }
+
+    this.updateDisplay();
+    // Auto-continue break/work
+    this.start();
+  }
+
+  updateDisplay() {
+    const mins = Math.floor(this.remainingSeconds / 60);
+    const secs = this.remainingSeconds % 60;
+    const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    this.displayEl.textContent = formatted;
+
+    // Update Progress Ring
+    const fraction = this.remainingSeconds / this.totalSeconds;
+    const offset = this.circumference * (1 - fraction);
+    this.progressRingEl.style.strokeDashoffset = `${offset}`;
+  }
+}
+
+/* --- zen-mode.js --- */
+/**
+ * TABIAT AMBIENT | Zen Mode Controller
+ * Auto-hides all UI controls after 3.5s of mouse/keyboard inactivity
+ */
+
+class ZenMode {
+  constructor(timeoutMs = 3500) {
+    this.timeoutMs = timeoutMs;
+    this.uiWrapper = document.getElementById('zen-ui-wrapper');
+    this.timer = null;
+    this.isInteracting = false; // Prevents fade while sliding or in active menu
+
+    this.initEventListeners();
+    this.resetTimer();
+  }
+
+  initEventListeners() {
+    const wakeEvents = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'wheel'];
+
+    wakeEvents.forEach(evt => {
+      window.addEventListener(evt, () => this.onUserActivity(), { passive: true });
+    });
+
+    // Detect when user is sliding a volume control or has a dropdown open
+    document.addEventListener('input', (e) => {
+      if (e.target.matches('.sound-slider, #master-volume-slider')) {
+        this.isInteracting = true;
+        this.wakeUp();
+      }
+    });
+
+    document.addEventListener('change', (e) => {
+      if (e.target.matches('.sound-slider, #master-volume-slider')) {
+        this.isInteracting = false;
+        this.resetTimer();
+      }
+    });
+  }
+
+  onUserActivity() {
+    this.wakeUp();
+    this.resetTimer();
+  }
+
+  wakeUp() {
+    if (this.uiWrapper.classList.contains('zen-hidden')) {
+      this.uiWrapper.classList.remove('zen-hidden');
+      document.body.classList.remove('zen-cursor-hide');
+    }
+  }
+
+  resetTimer() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
+
+    this.timer = setTimeout(() => {
+      this.sleep();
+    }, this.timeoutMs);
+  }
+
+  sleep() {
+    // Check if dropdown or settings open or user dragging
+    const hasOpenDropdown = document.querySelector('.preset-selector-wrap.open');
+    const hasOpenSettings = document.querySelector('.pomodoro-widget.settings-open');
+
+    if (this.isInteracting || hasOpenDropdown || hasOpenSettings) {
+      this.resetTimer();
+      return;
+    }
+
+    this.uiWrapper.classList.add('zen-hidden');
+    document.body.classList.add('zen-cursor-hide');
+  }
+}
+
+/* --- app.js --- */
+/**
+ * TABIAT AMBIENT | Main Application Controller
+ * Wires UI, Audio Mixer, Visuals, Presets, Custom File Uploads & Local State
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Initialize Engines
+  const visualEngine = new VisualEngine();
+  const audioMixer = new AudioMixer(visualEngine);
+  const pomodoroTimer = new PomodoroTimer(audioMixer);
+  const zenMode = new ZenMode(3500);
+
+  // 2. Preset Definitions
+  const PRESETS = {
+    rain: {
+      label: "Kuzgi Yomg'ir",
+      mode: "rain",
+      mix: { rain: 0.65, wind: 0.2 }
+    },
+    thunder: {
+      label: "Momaqaldiroq & Jala",
+      mode: "thunder",
+      mix: { rain: 0.8, heavy_rain: 0.5, thunder: 0.7, wind: 0.45 }
+    },
+    snow: {
+      label: "Qorli Tungi Izg'irin",
+      mode: "snow",
+      mix: { snow: 0.75, wind: 0.4 }
+    },
+    forest: {
+      label: "Tog' O'rmoni & Shamol",
+      mode: "forest",
+      mix: { birds: 0.65, stream: 0.45, wind: 0.25 }
+    },
+    campfire: {
+      label: "Sokin Gulxan & Olov",
+      mode: "campfire",
+      mix: { campfire: 0.75, wind: 0.2, wind: 0.15 }
+    },
+    deep_focus: {
+      label: "Tungi Chuqur Fokus",
+      mode: "night",
+      mix: { rain: 0.4, stream: 0.55, wind: 0.2 }
+    }
+  };
+
+  // 3. Soundboard Slider & Icon Interactions
+  const soundCards = document.querySelectorAll('.sound-card');
+  soundCards.forEach(card => {
+    const soundId = card.dataset.soundId;
+    const slider = card.querySelector('.sound-slider');
+    const avatar = card.querySelector('.icon-avatar');
+
+    // Dragging slider
+    slider.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value) / 100;
+      audioMixer.setVolume(soundId, val);
+    });
+
+    // Clicking icon avatar directly: toggle 60% or 0%
+    avatar.addEventListener('click', () => {
+      const current = audioMixer.channels[soundId] ? audioMixer.channels[soundId].volume : 0;
+      const target = current > 0.05 ? 0 : 0.6;
+      audioMixer.setVolume(soundId, target);
+    });
+  });
+
+  // 4. Master Controls
+  const masterPlayBtn = document.getElementById('master-play-btn');
+  const masterVolumeSlider = document.getElementById('master-volume-slider');
+  const shuffleBtn = document.getElementById('shuffle-mix-btn');
+  const resetBtn = document.getElementById('reset-all-btn');
+
+  masterPlayBtn.addEventListener('click', () => {
+    audioMixer.toggleMasterPlay();
+  });
+
+  masterVolumeSlider.addEventListener('input', (e) => {
+    audioMixer.setMasterVolume(parseFloat(e.target.value) / 100);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    audioMixer.resetAll();
+  });
+
+  shuffleBtn.addEventListener('click', () => {
+    const soundIds = ['rain', 'heavy_rain', 'thunder', 'wind', 'snow', 'birds', 'stream', 'campfire', 'rain'];
+    audioMixer.resetAll();
+
+    // Pick 2 or 3 pleasant complementary sounds
+    const count = Math.floor(Math.random() * 2) + 2;
+    const shuffled = [...soundIds].sort(() => 0.5 - Math.random());
+    const chosen = shuffled.slice(0, count);
+
+    chosen.forEach(id => {
+      const vol = (Math.random() * 0.4 + 0.3).toFixed(2);
+      audioMixer.setVolume(id, parseFloat(vol));
+    });
+
+    // Match visual engine to dominant sound
+    const primary = chosen[0];
+    if (primary === 'snow') visualEngine.setMode('snow');
+    else if (primary === 'campfire') visualEngine.setMode('campfire');
+    else if (primary === 'rain') visualEngine.setMode('rain');
+    else if (primary === 'birds' || primary === 'stream') visualEngine.setMode('forest');
+    else visualEngine.setMode('rain');
+  });
+
+  // 5. Preset Dropdown
+  const presetBtn = document.getElementById('preset-btn');
+  const presetWrap = document.querySelector('.preset-selector-wrap');
+  const presetLabel = document.getElementById('current-preset-label');
+  const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+  presetBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    presetWrap.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!presetWrap.contains(e.target)) {
+      presetWrap.classList.remove('open');
+    }
+  });
+
+  dropdownItems.forEach(item => {
+    item.addEventListener('click', () => {
+      dropdownItems.forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+
+      const presetKey = item.dataset.preset;
+      const config = PRESETS[presetKey];
+      if (config) {
+        presetLabel.textContent = config.label;
+        visualEngine.setMode(config.mode);
+        audioMixer.applyPreset(config.mix);
+      }
+      presetWrap.classList.remove('open');
+    });
+  });
+
+  // 6. Day / Night Theme Switch
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const savedTheme = localStorage.getItem('tabiat_theme') || 'theme-night';
+  document.body.className = savedTheme;
+
+  themeToggleBtn.addEventListener('click', () => {
+    if (document.body.classList.contains('theme-night')) {
+      document.body.classList.replace('theme-night', 'theme-day');
+      localStorage.setItem('tabiat_theme', 'theme-day');
+    } else {
+      document.body.classList.replace('theme-day', 'theme-night');
+      localStorage.setItem('tabiat_theme', 'theme-night');
+    }
+  });
+
+  // 7. Fullscreen Toggle
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  fullscreenBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  // 8. Custom Audio / Video Upload Handler (Drag & Drop + File Input)
+  const uploadBtn = document.getElementById('upload-trigger-btn');
+  const fileInput = document.getElementById('custom-file-input');
+
+  uploadBtn.addEventListener('click', () => {
+    fileInput.click();
+  });
+
+  const handleFiles = (files) => {
+    Array.from(files).forEach(file => {
+      const fileUrl = URL.createObjectURL(file);
+      const isVideo = file.type.startsWith('video/') || file.name.match(/\.(mp4|webm|ogv)$/i);
+      const isAudio = file.type.startsWith('audio/') || file.name.match(/\.(mp3|wav|ogg|m4a)$/i);
+
+      if (isVideo) {
+        visualEngine.loadCustomVideo(fileUrl);
+      } else if (isAudio) {
+        addCustomAudioChannel(file.name.replace(/\.[^/.]+$/, ""), fileUrl);
+      }
+    });
+  };
+
+  fileInput.addEventListener('change', (e) => {
+    handleFiles(e.target.files);
+  });
+
+  // Drag and Drop support
+  window.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+
+  window.addEventListener('drop', (e) => {
+    e.preventDefault();
+    if (e.dataTransfer && e.dataTransfer.files) {
+      handleFiles(e.dataTransfer.files);
+    }
+  });
+
+  function addCustomAudioChannel(name, url) {
+    const cleanId = 'custom_' + Date.now();
+    const audioEl = document.createElement('audio');
+    audioEl.id = `audio-${cleanId}`;
+    audioEl.src = url;
+    audioEl.loop = true;
+    audioEl.preload = 'auto';
+    document.body.appendChild(audioEl);
+
+    audioMixer.addChannel(cleanId, audioEl);
+
+    // Create dynamic sound card
+    const grid = document.getElementById('sound-grid');
+    const card = document.createElement('div');
+    card.className = 'sound-card';
+    card.dataset.soundId = cleanId;
+    card.innerHTML = `
+      <div class="icon-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="sound-svg">
+          <path d="M9 18V5l12-2v13M9 18a3 3 0 11-6 0 3 3 0 016 0zm12-2a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </div>
+      <div class="sound-info">
+        <span class="sound-title" title="${name}">${name.slice(0, 10)}</span>
+        <div class="slider-wrapper">
+          <input type="range" class="sound-slider" min="0" max="100" value="60">
+          <span class="vol-indicator">60%</span>
+        </div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+
+    // Wire events for newly added sound card
+    const slider = card.querySelector('.sound-slider');
+    const avatar = card.querySelector('.icon-avatar');
+
+    slider.addEventListener('input', (e) => {
+      audioMixer.setVolume(cleanId, parseFloat(e.target.value) / 100);
+    });
+
+    avatar.addEventListener('click', () => {
+      const current = audioMixer.channels[cleanId] ? audioMixer.channels[cleanId].volume : 0;
+      audioMixer.setVolume(cleanId, current > 0.05 ? 0 : 0.6);
+    });
+
+    // Auto-play the custom sound at 60%
+    audioMixer.setVolume(cleanId, 0.6);
+  }
+
+  // 9. Live Digital Clock
+  const clockEl = document.getElementById('live-clock');
+  function updateLiveClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    clockEl.textContent = `${hours}:${minutes}`;
+  }
+  updateLiveClock();
+  setInterval(updateLiveClock, 1000);
+
+  // 10. Initial User Activation: Start with smooth default preset
+  console.log('Tabiat Ambient Ready. Click anywhere to activate audio context.');
+});
+
+  </script>
 </body>
 </html>
