@@ -10,7 +10,7 @@ echo   Repository: https://github.com/shahzod19-star/naturesound.io
 echo.
 echo   1. O'zgarishlar va yangi sahifalar yig'ilmoqda...
 git add .
-git commit -m "v4.0: Ko'p sahifali platforma (Pleyer, Ovozlar, Fokus, Falsafa, Aloqa)" > nul 2>&1
+git commit -m "v4.3: 100% Organik tabiat audio treklari va toza loyiha papkasi" > nul 2>&1
 echo   2. GitHub serveriga yuklanmoqda (git push)...
 echo.
 git push origin main --force
