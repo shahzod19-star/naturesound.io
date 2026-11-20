@@ -1106,6 +1106,78 @@ html, body {
   }
 }
 
+@media (max-width: 680px) {
+  .compact-wrapper {
+    padding: 10px 10px 6px;
+    gap: 8px;
+  }
+
+  .top-nav {
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: space-between;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .top-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-left-group {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .brand-logo-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-logo-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .site-nav {
+    padding: 2px 4px;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+
+  .nav-link {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+  }
+
+  .compact-title {
+    font-size: 1.05rem;
+  }
+
+  .direct-sound-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    padding: 6px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+  }
+
+  .sound-pill-btn {
+    padding: 6px 8px;
+    font-size: 0.71rem;
+  }
+
+  .sound-pill-btn .pill-left {
+    gap: 4px;
+  }
+
+  .compact-footer {
+    font-size: 0.65rem;
+  }
+}
+
   </style>
 </head>
 <body class="page-body-compact">
@@ -1212,16 +1284,16 @@ html, body {
 
     <!-- Hidden Audio Elements -->
     <div style="display:none;">
-      <audio id="snd-rain" loop src="assets/audio/rain.mp3"></audio>
-      <audio id="snd-heavy_rain" loop src="assets/audio/gentle-rain.mp3"></audio>
-      <audio id="snd-thunder" loop src="assets/audio/thunder.mp3"></audio>
-      <audio id="snd-wind" loop src="assets/audio/wind.mp3"></audio>
-      <audio id="snd-snow" loop src="assets/audio/snow-blizzard.mp3"></audio>
-      <audio id="snd-birds" loop src="assets/audio/birds-forest.mp3"></audio>
-      <audio id="snd-stream" loop src="assets/audio/stream-water.mp3"></audio>
-      <audio id="snd-campfire" loop src="assets/audio/campfire.mp3"></audio>
-      <audio id="snd-waves" loop src="assets/audio/waves.mp3"></audio>
-      <audio id="snd-waterfall" loop src="assets/audio/waterfall.mp3"></audio>
+      <audio id="snd-rain" loop preload="auto" src="assets/audio/rain.mp3"></audio>
+      <audio id="snd-heavy_rain" loop preload="auto" src="assets/audio/heavy-rain.mp3"></audio>
+      <audio id="snd-thunder" loop preload="auto" src="assets/audio/thunder.mp3"></audio>
+      <audio id="snd-wind" loop preload="auto" src="assets/audio/wind.mp3"></audio>
+      <audio id="snd-snow" loop preload="auto" src="assets/audio/snow-blizzard.mp3"></audio>
+      <audio id="snd-birds" loop preload="auto" src="assets/audio/birds-forest.mp3"></audio>
+      <audio id="snd-stream" loop preload="auto" src="assets/audio/stream-water.mp3"></audio>
+      <audio id="snd-campfire" loop preload="auto" src="assets/audio/campfire.mp3"></audio>
+      <audio id="snd-waves" loop preload="auto" src="assets/audio/waves.mp3"></audio>
+      <audio id="snd-waterfall" loop preload="auto" src="assets/audio/waterfall.mp3"></audio>
     </div>
 
 

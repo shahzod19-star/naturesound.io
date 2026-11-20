@@ -1083,7 +1083,7 @@ html, body {
   margin-top: auto;
 }
 
-/* Responsive Breakpoints */
+/* Responsive Breakpoints & Mobile Phone Adaptation */
 @media (max-width: 860px) {
   .direct-sound-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1099,10 +1099,180 @@ html, body {
   }
   .pomodoro-widget {
     top: auto;
-    bottom: 180px;
+    bottom: 185px;
     right: 10px;
-    width: 130px;
-    padding: 8px;
+    width: 125px;
+    padding: 6px 8px;
+  }
+}
+
+@media (max-width: 680px) {
+  /* Mobile Phone Layout (360px - 480px) */
+  .zen-ui-wrapper {
+    padding: 8px 8px 10px;
+  }
+
+  .top-nav {
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: space-between;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+  }
+
+  .nav-left-group {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .brand-logo-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-logo-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .site-nav {
+    padding: 2px 4px;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+
+  .nav-link {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+  }
+
+  .top-controls {
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .glass-icon-btn {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 0.72rem;
+  }
+
+  /* Compact top icons: hide text on mobile to avoid overcrowding */
+  .top-controls .btn-label {
+    display: none;
+  }
+
+  /* Center Clock */
+  .center-clock-container {
+    top: 30%;
+  }
+
+  .zen-time-display {
+    font-size: clamp(2.3rem, 13vw, 3.4rem);
+  }
+
+  .zen-date-display {
+    font-size: 0.75rem;
+    margin-top: 4px;
+  }
+
+  /* Floating Pomodoro on Mobile - placed non-intrusively */
+  .pomodoro-widget {
+    display: none; /* Mobile users use dedicated Fokus page */
+  }
+
+  /* Bottom Dock on Mobile */
+  .bottom-dock {
+    width: calc(100% - 10px);
+    bottom: 6px;
+    gap: 5px;
+  }
+
+  .player-dock-inner {
+    padding: 6px 8px 8px;
+    border-radius: 18px;
+  }
+
+  .dock-filter-tabs {
+    gap: 4px;
+    padding: 2px 2px;
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .dock-filter-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-tab {
+    padding: 3px 8px;
+    font-size: 0.68rem;
+    flex-shrink: 0;
+  }
+
+  .sounds-track {
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 2px 4px 4px;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .sounds-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sound-card {
+    flex: 0 0 62px;
+    gap: 3px;
+    padding: 1px;
+  }
+
+  .sound-icon-wrap {
+    width: 38px;
+    height: 38px;
+    font-size: 1.15rem;
+  }
+
+  .sound-name {
+    font-size: 0.65rem;
+  }
+
+  .sound-slider {
+    width: 48px;
+    height: 3px;
+  }
+
+  .dock-master-bar {
+    padding-top: 4px;
+    gap: 6px;
+  }
+
+  .master-play-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .master-vol-wrap {
+    gap: 5px;
+  }
+
+  .master-slider {
+    width: 60px;
+  }
+
+  .master-status-text {
+    font-size: 0.65rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 125px;
   }
 }
 
@@ -1390,52 +1560,19 @@ html, body {
     </div>
   </div>
 
-  <!-- Audio Elements -->
+  <!-- Audio Elements (Direct src & preload=auto for instant 100% mobile & desktop audio start) -->
   <div style="display: none;">
-    <audio id="audio-rain" preload="none" loop>
-      <source src="assets/audio/rain.mp3" type="audio/mpeg">
-      <source src="https://assets.mixkit.co/active_storage/sfx/1250/1250-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-heavy_rain" preload="none" loop>
-      <source src="assets/audio/gentle-rain.mp3" type="audio/mpeg">
-      <source src="https://raw.githubusercontent.com/bradtraversy/vanillawebprojects/master/relaxer-app/audio/rain.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-thunder" preload="none" loop>
-      <source src="assets/audio/thunder.mp3" type="audio/mpeg">
-      <source src="https://assets.mixkit.co/active_storage/sfx/1273/1273-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-wind" preload="none" loop>
-      <source src="assets/audio/wind.mp3" type="audio/mpeg">
-      <source src="https://assets.mixkit.co/active_storage/sfx/1256/1256-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-snow" preload="none" loop>
-      <source src="assets/audio/snow-blizzard.mp3" type="audio/mpeg">
-      <source src="https://moodist.app/audio/blizzard.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-birds" preload="none" loop>
-      <source src="assets/audio/birds-forest.mp3" type="audio/mpeg">
-      <source src="https://assets.mixkit.co/active_storage/sfx/1211/1211-preview.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-stream" preload="none" loop>
-      <source src="assets/audio/stream-water.mp3" type="audio/mpeg">
-      <source src="https://moodist.app/audio/stream.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-campfire" preload="none" loop>
-      <source src="assets/audio/campfire.mp3" type="audio/mpeg">
-      <source src="https://moodist.app/audio/campfire.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-waves" preload="none" loop>
-      <source src="assets/audio/waves.mp3" type="audio/mpeg">
-      <source src="https://moodist.app/audio/waves.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-waterfall" preload="none" loop>
-      <source src="assets/audio/waterfall.mp3" type="audio/mpeg">
-      <source src="https://moodist.app/audio/waterfall.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="audio-chime" preload="auto">
-      <source src="assets/audio/bell-chime.mp3" type="audio/mpeg">
-      <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="audio-rain" src="assets/audio/rain.mp3" preload="auto" loop></audio>
+    <audio id="audio-heavy_rain" src="assets/audio/heavy-rain.mp3" preload="auto" loop></audio>
+    <audio id="audio-thunder" src="assets/audio/thunder.mp3" preload="auto" loop></audio>
+    <audio id="audio-wind" src="assets/audio/wind.mp3" preload="auto" loop></audio>
+    <audio id="audio-snow" src="assets/audio/snow-blizzard.mp3" preload="auto" loop></audio>
+    <audio id="audio-birds" src="assets/audio/birds-forest.mp3" preload="auto" loop></audio>
+    <audio id="audio-stream" src="assets/audio/stream-water.mp3" preload="auto" loop></audio>
+    <audio id="audio-campfire" src="assets/audio/campfire.mp3" preload="auto" loop></audio>
+    <audio id="audio-waves" src="assets/audio/waves.mp3" preload="auto" loop></audio>
+    <audio id="audio-waterfall" src="assets/audio/waterfall.mp3" preload="auto" loop></audio>
+    <audio id="audio-chime" src="assets/audio/bell-chime.mp3" preload="auto"></audio>
   </div>
 
   <!-- Core Scripts -->

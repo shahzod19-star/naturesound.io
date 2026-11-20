@@ -1106,6 +1106,72 @@ html, body {
   }
 }
 
+@media (max-width: 680px) {
+  .compact-wrapper {
+    padding: 10px 10px 6px;
+    gap: 8px;
+  }
+
+  .top-nav {
+    flex-wrap: nowrap;
+    gap: 6px;
+    justify-content: space-between;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+
+  .top-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-left-group {
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .brand-logo-badge {
+    width: 32px;
+    height: 32px;
+  }
+
+  .brand-logo-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .site-nav {
+    padding: 2px 4px;
+    gap: 1px;
+    flex-shrink: 0;
+  }
+
+  .nav-link {
+    padding: 4px 8px;
+    font-size: 0.72rem;
+  }
+
+  .compact-title {
+    font-size: 1.05rem;
+  }
+
+  .direct-about-card {
+    padding: 14px 16px;
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .about-point {
+    font-size: 0.76rem;
+    gap: 6px;
+  }
+
+  .compact-footer {
+    font-size: 0.65rem;
+  }
+}
+
   </style>
 </head>
 <body class="page-body-compact">
